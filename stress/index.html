@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마음 발견 센터 | 스트레스 척도(PSS-10)</title>
+    <style>
+        :root { --main: #8aab91; }
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 40px 10px; margin: 0; }
+        .container { background: white; max-width: 550px; width: 100%; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .center-name { color: var(--main); font-weight: bold; font-size: 18px; text-align: center; margin-bottom: 20px; }
+        .btn-call { background: #e63946; color: white; border: none; padding: 18px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 12px; margin-top:20px; transition: 0.3s; }
+        .btn-call:hover { background: #c12e3a; }
+        .opt-btn { display:block; width:100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; background: #fff; cursor: pointer; margin-top:10px; text-align:left; font-size: 15px; transition: 0.2s; }
+        .opt-btn:hover { background: #f8fbff; border-color: var(--main); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="center-name">🏛️ 마음 발견 상담심리센터 | 스트레스 검사</div>
+    <div id="quiz-area">
+        <div style="font-size:14px; color:#888; margin-bottom:10px;" id="q-count">문항 1 / 10</div>
+        <h2 id="q-text" style="font-size:1.1rem; line-height:1.5; margin-top:0;">질문을 불러오는 중...</h2>
+        <p style="font-size:13px; color:#999; margin-bottom:15px;">*최근 한 달간의 느낌을 선택해 주세요.</p>
+        <div id="opt-container"></div>
+    </div>
+    <div id="result-area" style="display:none; text-align:center;">
+        <div style="background:var(--main); color:white; display:inline-block; padding:5px 15px; border-radius:20px; font-size:14px; margin-bottom:10px;">검사 결과</div>
+        <h2 style="color:var(--main); font-size:2rem; margin:10px 0;">당신의 스트레스 점수는 <span id="score-text">0</span>점입니다.</h2>
+        <p id="advice-text" style="line-height:1.6; color:#555; margin-bottom:20px;"></p>
+        <button class="btn-call" onclick="location.href='https://docs.google.com/forms/d/e/1FAIpQLSd2dL_D13VT4a2LBSFtylGDUBd7x0-yKLtryqzagxgNwidgbA/viewform?usp=sf_link'">상담 신청하고 스트레스 해소하기</button>
+    </div>
+</div>
+<script>
+    const questions = ["1. 예상치 못한 일 때문에 당황한 적이 얼마나 있었습니까?", "2. 생활에서 중요한 일들을 통제할 수 없다고 느낀 적이 얼마나 있었습니까?", "3. 신경이 예민해지고 스트레스를 느낀 적이 얼마나 있었습니까?", "4. 생활 속의 번거로운 일들을 성공적으로 해결한 적이 얼마나 있었습니까?", "5. 생활에서 일어난 중요한 변화들을 효율적으로 대처했습니까?", "6. 개인적인 문제를 해결할 수 있다는 자신감을 느꼈습니까?", "7. 일들이 당신의 뜻대로 진행되고 있다고 느꼈습니까?", "8. 모든 일을 잘 대처하고 있다고 느꼈습니까?", "9. 당신이 통제할 수 없는 일 때문에 화가 난 적이 있었습니까?", "10. 어려운 일이 너무 많이 쌓여서 극복할 수 없다고 느낀 적이 얼마나 있었습니까?"];
+    const answers = ["전혀 없었다", "거의 없었다", "가끔 있었다", "꽤 자주 있었다", "매우 자주 있었다"];
+    let currentIdx = 0; let totalScore = 0;
+    function loadQuestion() {
+        document.getElementById('q-count').innerText = `문항 ${currentIdx + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = questions[currentIdx];
+        const container = document.getElementById('opt-container');
+        container.innerHTML = '';
+        answers.forEach((text, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = text;
+            btn.onclick = () => {
+                let score = i;
+                if ([3, 4, 5, 6, 7].includes(currentIdx)) score = 4 - i;
+                totalScore += score; nextStep();
+            };
+            container.appendChild(btn);
+        });
+    }
+    function nextStep() {
+        currentIdx++;
+        if (currentIdx < questions.length) loadQuestion();
+        else {
+            document.getElementById('quiz-area').style.display = 'none';
+            document.getElementById('result-area').style.display = 'block';
+            document.getElementById('score-text').innerText = totalScore;
+            let adv = "";
+            if(totalScore <= 13) adv = "정상적인 스트레스 상태입니다. 현재처럼 잘 관리해 주세요.";
+            else if(totalScore <= 18) adv = "약간의 스트레스가 쌓인 상태입니다. 휴식과 자기 돌봄이 필요한 시기입니다.";
+            else adv = "스트레스 수치가 매우 높습니다. 일상에 지장을 주기 전에 전문가와 대화해 보시길 권합니다.";
+            document.getElementById('advice-text').innerText = adv;
+        }
+    }
+    loadQuestion();
+</script>
+</body>
+</html>
