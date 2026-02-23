@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마음 발견 센터 | 불안 척도(BAI)</title>
+    <style>
+        :root { --main: #6c8ebf; }
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 40px 10px; margin: 0; }
+        .container { background: white; max-width: 550px; width: 100%; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .center-name { color: var(--main); font-weight: bold; font-size: 18px; text-align: center; margin-bottom: 20px; }
+        .btn-call { background: #e63946; color: white; border: none; padding: 18px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 12px; margin-top:20px; transition: 0.3s; }
+        .btn-call:hover { background: #c12e3a; }
+        .opt-btn { display:block; width:100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; background: #fff; cursor: pointer; margin-top:10px; text-align:left; font-size: 15px; transition: 0.2s; }
+        .opt-btn:hover { background: #f8fbff; border-color: var(--main); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="center-name">🏛️ 마음 발견 상담심리센터 | 불안 검사</div>
+    <div id="quiz-area">
+        <div style="font-size:14px; color:#888; margin-bottom:10px;" id="q-count">문항 1 / 21</div>
+        <h2 id="q-text" style="font-size:1.1rem; line-height:1.5; margin-top:0;">질문을 불러오는 중...</h2>
+        <div id="opt-container"></div>
+    </div>
+    <div id="result-area" style="display:none; text-align:center;">
+        <div style="background:var(--main); color:white; display:inline-block; padding:5px 15px; border-radius:20px; font-size:14px; margin-bottom:10px;">검사 결과</div>
+        <h2 style="color:var(--main); font-size:2rem; margin:10px 0;">당신의 불안 점수는 <span id="score-text">0</span>점입니다.</h2>
+        <p id="advice-text" style="line-height:1.6; color:#555; margin-bottom:20px;"></p>
+        <button class="btn-call" onclick="location.href='https://docs.google.com/forms/d/e/1FAIpQLSdnM00R-Si1-OsX0A4BiO2QWaxtgQGgiu1zZS6eJka_mUQoyg/viewform?usp=header'">상담 신청하고 마음 회복하기</button>
+    </div>
+</div>
+<script>
+    const questions = ["1. 몸이 저리고 쑤시는 느낌", "2. 몸이 화끈거리는 느낌", "3. 다리가 떨림", "4. 침착하게 있기가 어려움", "5. 나쁜 일이 생길 것 같은 두려움", "6. 어지러움", "7. 심장이 두근거리고 빨리 뜀", "8. 안절부절못함", "9. 무서움을 느낌", "10. 신경이 예민함", "11. 질식할 것 같은 느낌", "12. 손이 떨림", "13. 몸이 떨림", "14. 통제력을 잃을 것 같은 두려움", "15. 숨쉬기가 곤란함", "16. 죽을 것 같은 공포", "17. 불안을 느낌", "18. 소화가 안 되고 배가 아픔", "19. 기절할 것 같음", "20. 얼굴이 달아오름", "21. 땀을 많이 흘림(더위 때문이 아님)"];
+    const answers = ["전혀 느끼지 않았다", "조금 느꼈다", "상당히 느꼈다", "심하게 느꼈다"];
+    let currentIdx = 0; let totalScore = 0;
+    function loadQuestion() {
+        document.getElementById('q-count').innerText = `문항 ${currentIdx + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = questions[currentIdx];
+        const container = document.getElementById('opt-container');
+        container.innerHTML = '';
+        answers.forEach((text, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = text;
+            btn.onclick = () => { totalScore += i; nextStep(); };
+            container.appendChild(btn);
+        });
+    }
+    function nextStep() {
+        currentIdx++;
+        if (currentIdx < questions.length) loadQuestion();
+        else {
+            document.getElementById('quiz-area').style.display = 'none';
+            document.getElementById('result-area').style.display = 'block';
+            document.getElementById('score-text').innerText = totalScore;
+            let adv = "";
+            if(totalScore <= 21) adv = "정상 범위의 불안 수준입니다. 일상적인 관리로 충분합니다.";
+            else if(totalScore <= 31) adv = "주의가 필요한 불안 수준입니다. 전문가와의 상담을 통해 마음을 돌봐주세요.";
+            else adv = "심한 불안 상태입니다. 일상생활에 지장이 있을 수 있으니 꼭 상담을 받아보시길 권합니다.";
+            document.getElementById('advice-text').innerText = adv;
+        }
+    }
+    loadQuestion();
+</script>
+</body>
+</html>
