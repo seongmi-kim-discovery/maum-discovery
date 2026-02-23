@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마음 발견 상담심리센터 | BDI 검사</title>
+    <style>
+        :root { --main: #5a7d9a; --bg: #fdfdfd; }
+        body { font-family: sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 40px 10px; margin: 0; }
+        .container { background: white; max-width: 550px; width: 100%; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .center-name { color: var(--main); font-weight: bold; font-size: 18px; text-align: center; margin-bottom: 20px; }
+        .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+        .progress-inner { height: 100%; background: var(--main); width: 0%; transition: 0.3s; }
+        .options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        button.opt-btn { padding: 16px; border: 1px solid #e9ecef; border-radius: 12px; background: #fff; cursor: pointer; text-align: left; font-size: 15px; }
+        button.opt-btn:hover { background: #f8fbff; border-color: var(--main); }
+        #result-area { display: none; text-align: center; }
+        .score-val { font-size: 54px; font-weight: 800; color: var(--main); margin: 15px 0; }
+        .btn-call { background: #e63946; color: white; border: none; padding: 18px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 12px; transition: 0.3s; }
+        .btn-call:hover { background: #c13039; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="center-name">마음 발견 상담심리센터</div>
+    <div id="quiz-area">
+        <div class="progress-bar"><div class="progress-inner" id="bar"></div></div>
+        <div id="q-count" style="font-size:14px; color:#888;">문항 1 / 21</div>
+        <h2 id="q-text" style="font-size:1.2rem; margin-top:10px;">질문을 불러오는 중...</h2>
+        <div class="options" id="opt-container"></div>
+    </div>
+    <div id="result-area">
+        <div style="background:var(--main); color:white; display:inline-block; padding:5px 15px; border-radius:20px;">진단 결과</div>
+        <div class="score-val" id="score-text">0점</div>
+        <p id="advice-text" style="line-height:1.6; color:#555; margin-bottom:25px;"></p>
+        <button class="btn-call" onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLSeUXs1ArhXNd_iu2M8XT_S0SM6ZN4rhKdMqPippt-z61gg0-A/viewform'">마음 발견 센터에 상담 신청하기</button>
+    </div>
+</div>
+<script>
+    const questions = [
+        { q: "1. 슬픔", a: ["슬프지 않다.", "가끔 슬프다.", "항상 슬프다.", "너무 슬퍼서 견딜 수 없다."], s: [0, 1, 2, 3] },
+        { q: "2. 미래 비관", a: ["희망적이다.", "다소 비관적이다.", "기대할 게 없다.", "절망적이다."], s: [0, 1, 2, 3] },
+        { q: "3. 실패감", a: ["실패자라 느끼지 않는다.", "실패를 많이 한 것 같다.", "실패뿐인 것 같다.", "완전히 실패했다."], s: [0, 1, 2, 3] },
+        { q: "4. 불만족", a: ["전처럼 즐겁다.", "전처럼 즐겁지 않다.", "별 만족이 없다.", "모든 게 불만이다."], s: [0, 1, 2, 3] },
+        { q: "5. 죄책감", a: ["느끼지 않는다.", "가끔 느낀다.", "자주 느낀다.", "항상 시달린다."], s: [0, 1, 2, 3] },
+        { q: "6. 벌받는 느낌", a: ["아니다.", "받을지 모른다.", "받을 것 같다.", "받고 있다."], s: [0, 1, 2, 3] },
+        { q: "7. 자기혐오", a: ["실망하지 않는다.", "실망한다.", "화가 난다.", "혐오한다."], s: [0, 1, 2, 3] },
+        { q: "8. 자기비난", a: ["못났다 생각지 않는다.", "실수에 비판적이다.", "항상 탓한다.", "모든 건 내 탓이다."], s: [0, 1, 2, 3] },
+        { q: "9. 자살생각", a: ["안 한다.", "생각은 하나 안 한다.", "하고 싶다.", "기회만 나면 하겠다."], s: [0, 1, 2, 3] },
+        { q: "10. 울음", a: ["전과 같다.", "더 자주 운다.", "항상 운다.", "울 기운도 없다."], s: [0, 1, 2, 3] },
+        { q: "11. 초조", a: ["전과 같다.", "더 쉽게 짜증난다.", "항상 짜증난다.", "이제 무덤덤하다."], s: [0, 1, 2, 3] },
+        { q: "12. 관심상실", a: ["관심 있다.", "줄어들었다.", "거의 없다.", "완전히 없다."], s: [0, 1, 2, 3] },
+        { q: "13. 우유부단", a: ["결정 잘 한다.", "미룰 때가 많다.", "결정이 어렵다.", "못 하겠다."], s: [0, 1, 2, 3] },
+        { q: "14. 신체변화", a: ["전과 같다.", "매력 없다 느낀다.", "추해졌다 느낀다.", "완전히 변했다."], s: [0, 1, 2, 3] },
+        { q: "15. 에너지", a: ["전과 같다.", "노력이 더 필요하다.", "채찍질해야 한다.", "아무것도 못 한다."], s: [0, 1, 2, 3] },
+        { q: "16. 수면", a: ["잘 잔다.", "잘 못 잔다.", "일찍 깬다.", "못 잔다."], s: [0, 1, 2, 3] },
+        { q: "17. 피로", a: ["안 피곤하다.", "쉽게 피곤하다.", "뭘 해도 피곤하다.", "너무 피곤하다."], s: [0, 1, 2, 3] },
+        { q: "18. 식욕", a: ["평소와 같다.", "좋지 않다.", "훨씬 줄었다.", "전혀 없다."], s: [0, 1, 2, 3] },
+        { q: "19. 체중", a: ["변화 없다.", "2kg 이상 줄었다.", "4kg 이상 줄었다.", "6kg 이상 줄었다."], s: [0, 1, 2, 3] },
+        { q: "20. 건강걱정", a: ["안 한다.", "신체가 걱정된다.", "매우 걱정된다.", "아무것도 못 하겠다."], s: [0, 1, 2, 3] },
+        { q: "21. 성 관심", a: ["변화 없다.", "줄었다.", "훨씬 줄었다.", "완전히 잃었다."], s: [0, 1, 2, 3] }
+    ];
+    let currentIdx = 0;
+    let totalScore = 0;
+    function loadQuestion() {
+        const q = questions[currentIdx];
+        document.getElementById('q-count').innerText = `문항 ${currentIdx + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = q.q;
+        document.getElementById('bar').style.width = ((currentIdx + 1) / questions.length * 100) + "%";
+        const container = document.getElementById('opt-container');
+        container.innerHTML = '';
+        q.a.forEach((text, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = text;
+            btn.onclick = () => nextStep(q.s[i]);
+            container.appendChild(btn);
+        });
+    }
+    function nextStep(score) {
+        totalScore += score;
+        currentIdx++;
+        if (currentIdx < questions.length) { loadQuestion(); } else { showResult(); }
+    }
+    function showResult() {
+        document.getElementById('quiz-area').style.display = 'none';
+        document.getElementById('result-area').style.display = 'block';
+        document.getElementById('score-text').innerText = totalScore + "점";
+        let adv = "";
+        if (totalScore <= 13) adv = "정상 수준입니다. 마음 발견 센터가 늘 응원합니다.";
+        else if (totalScore <= 19) adv = "가벼운 우울감이 감지됩니다. 상담을 추천합니다.";
+        else if (totalScore <= 28) adv = "중등도 우울 상태입니다. 전문가의 도움이 필요합니다.";
+        else adv = "심한 우울 상태입니다. 즉시 전문가와 상담하세요.";
+        document.getElementById('advice-text').innerText = adv;
+    }
+    loadQuestion();
+</script>
+</body>
+</html>
