@@ -3,31 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마음 발견 상담심리센터 | 자가진단</title>
+    <title>마음발견상담심리센터</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: white; max-width: 500px; width: 100%; padding: 40px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
-        h1 { color: #5a7d9a; margin-bottom: 30px; font-size: 26px; }
-        .menu-grid { display: grid; gap: 15px; }
-        .menu-item { display: block; padding: 20px; border-radius: 15px; text-decoration: none; color: white; font-weight: bold; font-size: 18px; transition: 0.3s; }
-        .menu-item:hover { transform: translateY(-3px); filter: brightness(1.1); }
-        .btn-bdi { background-color: #5a7d9a; } 
-        .btn-bai { background-color: #6c8ebf; } 
-        .btn-stress { background-color: #8aab91; } 
-        .btn-apply { background-color: #e63946; margin-top: 10px; }
+        body { font-family: 'Nanum Gothic', sans-serif; margin: 0; color: #444; line-height: 1.7; scroll-behavior: smooth; background: #fff; }
+        h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; color: #333; position: relative; }
+        h2::after { content: ''; display: block; width: 50px; height: 3px; background: #6b8e23; margin: 15px auto 0; }
+        header { background: #fff; border-bottom: 1px solid #eee; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.4rem; font-weight: 800; color: #6b8e23; text-decoration: none; }
+        nav a { margin-left: 20px; text-decoration: none; color: #666; font-size: 0.95rem; font-weight: bold; transition: 0.3s; }
+        nav a:hover { color: #6b8e23; }
+        section { padding: 80px 10%; }
+        
+        .hero { 
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
+                        url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1600&q=80'); 
+            background-size: cover; background-position: center; height: 500px; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 20px; color: #222; word-break: keep-all; }
+        .hero p { font-size: 1.2rem; color: #555; margin-bottom: 30px; }
+        .btn-main { background: #6b8e23; color: #fff; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(107,142,35,0.3); }
+        
+        .services { background: #f9fbf7; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .service-card { background: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .service-card h3 { color: #6b8e23; margin-bottom: 15px; }
+
+        /* 자가진단 섹션 스타일 */
+        .diagnosis-section { padding: 60px 10%; text-align: center; background: #fff; }
+        .diag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .diag-card { padding: 25px; border-radius: 15px; text-decoration: none; color: white; font-weight: bold; font-size: 1.1rem; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: block; }
+        .diag-card:hover { transform: translateY(-5px); filter: brightness(1.1); }
+        .bg-bdi { background-color: #5a7d9a; }
+        .bg-bai { background-color: #6c8ebf; }
+        .bg-stress { background-color: #8aab91; }
+        
+        .expert-container { display: flex; gap: 50px; align-items: center; flex-wrap: wrap; justify-content: center; }
+        .expert-placeholder { flex: 1; min-width: 300px; max-width: 400px; height: 400px; background: #f0f4f0; border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 6rem; border: 1px solid #e0e6e0; }
+        .expert-info { flex: 1.2; min-width: 300px; }
+        .expert-info h3 { font-size: 2rem; color: #333; margin-bottom: 10px; }
+        .expert-info ul { list-style: none; padding: 0; margin-top: 20px; }
+        .expert-info li { margin-bottom: 10px; padding-left: 20px; position: relative; }
+        .expert-info li::before { content: '✓'; position: absolute; left: 0; color: #6b8e23; font-weight: bold; }
+        
+        .contact-container { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; }
+        .contact-form { display: flex; flex-direction: column; background: #fff; padding: 30px; border-radius: 20px; border: 1px solid #eee; }
+        .contact-form input, .contact-form textarea, .contact-form select { margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline-color: #6b8e23; }
+        .contact-form button { background: #333; color: #fff; border: none; padding: 18px; cursor: pointer; border-radius: 8px; font-weight: bold; font-size: 1.1rem; }
+        
+        .map-box { 
+            display: block; width: 100%; padding: 30px 20px; 
+            background-color: #f0f4f0; border: 2px dashed #6b8e23; 
+            border-radius: 15px; margin-top: 25px; 
+            text-align: center; text-decoration: none; color: #333;
+            transition: all 0.3s ease; box-sizing: border-box;
+        }
+        .map-box:hover { background-color: #e2ede2; transform: translateY(-3px); }
+
+        .kakao-btn { 
+            position: fixed; bottom: 30px; right: 30px; 
+            background: #fae100; color: #3c1e1e; width: 70px; height: 70px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            text-decoration: none; box-shadow: 0 5px 20px rgba(0,0,0,0.3); 
+            z-index: 10000; font-weight: bold; font-size: 14px; text-align: center; 
+            line-height: 1.3; border: 2px solid #fff;
+        }
+        
+        @media (max-width: 768px) { .contact-container { grid-template-columns: 1fr; } section { padding: 60px 5%; } .hero h1 { font-size: 1.8rem; } .expert-placeholder { height: 300px; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🌿 마음 발견<br>자가진단 센터</h1>
-        <div class="menu-grid">
-            <a href="./BDI/index.html" class="menu-item btn-bdi">📊 우울 검사 (BDI)</a>
-            <a href="./BAI/index.html" class="menu-item btn-bai">😟 불안 검사 (BAI)</a>
-            <a href="./stress/index.html" class="menu-item btn-stress">🔋 스트레스 검사 (PSS)</a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeUXs1ArhXNd_iu2M8XT_S0SM6ZN4rhKdMqPippt-z61gg0-A/viewform" class="menu-item btn-apply" target="_blank">✉️ 전문가 상담 신청하기</a>
-        </div>
-        <p style="margin-top: 30px; color: #888; font-size: 14px;">현재 마음 상태를 체크해 보세요.</p>
+
+<header>
+    <a href="#" class="logo">마음발견상담심리센터</a>
+    <nav>
+        <a href="#programs">상담프로그램</a>
+        <a href="#diagnosis">마음자가진단</a>
+        <a href="#expert">전문가소개</a>
+        <a href="#contact">문의/오시는길</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>당신도 몰랐던 당신의 마음,<br>오늘 함께 발견해볼까요?</h1>
+    <p>성인상담 · 청소년상담 · 심리검사 전문</p>
+    <a href="#contact" class="btn-main">온라인 상담 신청하기</a>
+</section>
+
+<section id="programs" class="services">
+    <div style="grid-column: 1 / -1;"><h2>상담 프로그램</h2></div>
+    <div class="service-card"><h3>성인 상담</h3><p>우울, 불안, 대인관계 등 성인의 심리적 고민을 따뜻하게 경청하고 함께 답을 찾습니다.</p></div>
+    <div class="service-card"><h3>청소년 상담</h3><p>학업 스트레스, 사춘기 고민 등 청소년기의 혼란을 이해하고 성장을 돕습니다.</p></div>
+    <div class="service-card"><h3>심리 검사</h3><p>TCI, MMPI 등 전문 검사를 통해 나를 객관적으로 이해하는 첫걸음을 뗗니다.</p></div>
+</section>
+
+<section id="diagnosis" class="diagnosis-section">
+    <h2>마음 자가진단 서비스</h2>
+    <p>현재 나의 마음은 어떤가요? 간단한 검사를 통해 확인해 보세요.</p>
+    <div class="diag-grid">
+        <a href="https://seongmi-kim-discovery.github.io/maum-discovery/BDI/index.html" class="diag-card bg-bdi">📊 우울 검사 (BDI)</a>
+        <a href="https://seongmi-kim-discovery.github.io/maum-discovery/BAI/index.html" class="diag-card bg-bai">😟 불안 검사 (BAI)</a>
+        <a href="https://seongmi-kim-discovery.github.io/maum-discovery/stress/index.html" class="diag-card bg-stress">🔋 스트레스 검사 (PSS)</a>
     </div>
+</section>
+
+<section id="expert">
+    <h2>상담 전문가 소개</h2>
+    <div class="expert-container">
+        <div class="expert-placeholder">🌿</div>
+        <div class="expert-info">
+            <h3>원장 김성미</h3>
+            <p style="font-weight: bold; color: #6b8e23;">"진심 어린 공감으로 당신의 마음과 동행하겠습니다."</p>
+            <ul>
+                <li>충북대학교 대학원 심리학과 석사 졸업</li>
+                <li>한국상담심리학회 상담심리사 2급</li>
+                <li>한국인력개발 임상심리사 1급</li>
+                <li>여성가족부 청소년상담사 2급</li>
+                <li>현) 마음발견상담심리센터 원장</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="contact" style="background: #f9fbf7;">
+    <h2>문의 및 오시는 길</h2>
+    <div class="contact-container">
+        <div class="contact-form">
+            <h3>상담 예약 및 문의</h3>
+            <p style="font-size: 0.9rem; color: #888; margin-bottom: 20px;">내용을 남겨주시면 확인 후 연락드리겠습니다.</p>
+            <input type="text" placeholder="성함" required>
+            <input type="tel" placeholder="연락처 (- 제외)" required>
+            <select>
+                <option value="">관심 프로그램 선택</option>
+                <option value="adult">성인 상담</option>
+                <option value="youth">청소년 상담</option>
+                <option value="test">심리 검사</option>
+            </select>
+            <textarea rows="5" placeholder="문의하실 내용을 간단히 적어주세요."></textarea>
+            <button type="button" onclick="alert('신청이 완료되었습니다. 조속히 연락드리겠습니다.')">상담 신청하기</button>
+        </div>
+        
+        <div class="location-info">
+            <h3>오시는 길</h3>
+            <p>📍 <strong>주소:</strong> 인천 부평구 주부토로66번길 65</p>
+            <p>📞 <strong>전화:</strong> 010-7460-6225</p>
+            <p>⏰ <strong>운영:</strong> 평일 10:00 - 20:00 (예약제)</p>
+            
+            <a href="https://map.naver.com/v5/search/%EB%A7%88%EC%9D%8C%EB%B0%9C%EA%B2%AC%EC%83%81%EB%8B%B4%EC%8B%AC%EB%A6%AC%EC%84%BC%ED%84%B0" target="_blank" class="map-box">
+                <p style="font-size: 1.1rem; margin: 0 0 10px 0; font-weight: bold;">📍 마음발견상담심리센터 위치 확인</p>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">(인천 부평구 주부토로66번길 65)</p>
+                <p style="font-size: 0.85rem; color: #6b8e23; font-weight: bold;">👉 클릭하시면 네이버 지도로 연결됩니다</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer style="text-align: center; padding: 50px; background: #333; color: #999; font-size: 0.85rem;">
+    <p>© 2026 마음발견상담심리센터 | 대표: 김성미 | 사업자번호: 855-98-01575</p>
+    <p>인천광역시 부평구 주부토로 66번길 65 | T. 010-7460-6225</p>
+</footer>
+
+<a href="https://open.kakao.com/o/s7U0vZhi" class="kakao-btn" target="_blank">카톡<br>상담</a>
+
 </body>
 </html>
-
