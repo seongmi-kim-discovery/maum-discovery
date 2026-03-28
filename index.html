@@ -25,11 +25,12 @@
         .hero p { font-size: 1.2rem; color: #555; margin-bottom: 30px; }
         .btn-main { background: #6b8e23; color: #fff; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(107,142,35,0.3); }
         
-        .services { background: #f9fbf7; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .service-card { background: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        /* 상담 프로그램 그리드 (6개 카드로 확장) */
+        .services { background: #f9fbf7; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { background: #fff; padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; }
+        .service-card:hover { transform: translateY(-5px); }
         .service-card h3 { color: #6b8e23; margin-bottom: 15px; }
 
-        /* 자가진단 섹션 스타일 */
         .diagnosis-section { padding: 60px 10%; text-align: center; background: #fff; }
         .diag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
         .diag-card { padding: 25px; border-radius: 15px; text-decoration: none; color: white; font-weight: bold; font-size: 1.1rem; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: block; }
@@ -86,7 +87,7 @@
 
 <section class="hero">
     <h1>당신도 몰랐던 당신의 마음,<br>오늘 함께 발견해볼까요?</h1>
-    <p>성인상담 · 청소년상담 · 심리검사 전문</p>
+    <p>성인 · 청소년 · 가족 · 부부 상담 전문</p>
     <a href="#contact" class="btn-main">온라인 상담 신청하기</a>
 </section>
 
@@ -94,6 +95,9 @@
     <div style="grid-column: 1 / -1;"><h2>상담 프로그램</h2></div>
     <div class="service-card"><h3>성인 상담</h3><p>우울, 불안, 대인관계 등 성인의 심리적 고민을 따뜻하게 경청하고 함께 답을 찾습니다.</p></div>
     <div class="service-card"><h3>청소년 상담</h3><p>학업 스트레스, 사춘기 고민 등 청소년기의 혼란을 이해하고 성장을 돕습니다.</p></div>
+    <div class="service-card"><h3>부부 상담</h3><p>부부간의 갈등과 의사소통 문제를 해결하고 서로에 대한 깊은 이해를 돕습니다.</p></div>
+    <div class="service-card"><h3>가족 상담</h3><p>가족 구성원 간의 역동을 파악하여 건강하고 행복한 가족 관계를 회복합니다.</p></div>
+    <div class="service-card"><h3>연인 상담</h3><p>커플 간의 가치관 차이나 갈등을 조율하며 건강한 사랑을 이어가도록 돕습니다.</p></div>
     <div class="service-card"><h3>심리 검사</h3><p>TCI, MMPI 등 전문 검사를 통해 나를 객관적으로 이해하는 첫걸음을 뗗니다.</p></div>
 </section>
 
@@ -137,6 +141,9 @@
                 <option value="">관심 프로그램 선택</option>
                 <option value="adult">성인 상담</option>
                 <option value="youth">청소년 상담</option>
+                <option value="couple">부부 상담</option>
+                <option value="family">가족 상담</option>
+                <option value="lovers">연인 상담</option>
                 <option value="test">심리 검사</option>
             </select>
             <textarea rows="5" placeholder="문의하실 내용을 간단히 적어주세요."></textarea>
